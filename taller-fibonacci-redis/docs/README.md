@@ -18,9 +18,9 @@ Esta carpeta guarda los entregables del informe.
 | Pregunta 2 | Daza |
 | Pregunta 3 | Daza |
 | Pregunta 4 | Daza |
-| Pregunta 5 | Villaneda |
+| Pregunta 5 | Johan |
 | Pregunta 6 | López |
 | Lista vs set | López |
-| Bonus (memoización) | Villaneda |
-| Tabla del inventario de claves | Villaneda |
+| Bonus (memoización) | Johan |
+| Tabla del inventario de claves | Johan |
 | 3 diagramas y su comparación | Daza |

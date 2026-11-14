@@ -5,7 +5,7 @@ Taller: Caché de Fibonacci con Redis
 Reparto de funciones (cada persona edita SOLO sus funciones):
 - Arias     : parte1_conexion, fib, parte2_sin_cache, fib_cache, parte3_secuencia
 - López     : contar, parte4_contadores, registrar_historial, parte5_historial, parte7_expiracion
-- Villaneda : registrar_set, parte6_set, fib_memo, bonus_memoizacion, parte8a_inventario_claves
+- Johan     : registrar_set, parte6_set, fib_memo, bonus_memoizacion, parte8a_inventario_claves
 - Daza      : parte8b_inventario_stats
 
 Requisitos: Redis en localhost:6379, sin contraseña, base de datos 1.
@@ -30,7 +30,7 @@ SECUENCIA = [30, 30, 25, 30, 25, 32, 32]
 CLAVE_HITS = "stats:hits"
 CLAVE_MISSES = "stats:misses"
 CLAVE_HISTORIAL = "historial"          # lista (López)
-CLAVE_CONSULTADOS = "consultados"      # set (Villaneda)
+CLAVE_CONSULTADOS = "consultados"      # set (Johan)
 
 
 # ===========================================================================
@@ -85,7 +85,7 @@ def fib_cache(n):
 
     contar(estado)            # López
     registrar_historial(n)    # López
-    registrar_set(n)          # Villaneda
+    registrar_set(n)          # Johan
 
     if estado == "MISS":
         TIEMPOS_MISS[n] = ms
@@ -136,38 +136,80 @@ def parte7_expiracion():
 
 
 # ===========================================================================
-# VILLANEDA — Parte 6, bonus y parte 8a (pendientes)
+# JOHAN — Parte 6, bonus y parte 8a
 # ===========================================================================
 def registrar_set(n):
-    # TODO VILLANEDA: SADD consultados n (cada n se guarda una sola vez).
-    print("pendiente (Villaneda)")
+    # guarda cada n en el set consultados
+    r.sadd(CLAVE_CONSULTADOS, n)
 
 
 def parte6_set():
-    # TODO VILLANEDA: SCARD consultados (cuántos n distintos) y
-    #                 SISMEMBER consultados <n> para revisar si un n ya se consultó.
-    print("\n=== Parte 6: Set de consultados (Villaneda) ===")
-    print("pendiente (Villaneda)")
+    print("\n=== Parte 6: Set de consultados (Johan) ===")
+    distintos = r.scard(CLAVE_CONSULTADOS)  # cantidad de unicos
+    esta_30 = r.sismember(CLAVE_CONSULTADOS, 30)  # revisa si esta el 30
+    esta_10 = r.sismember(CLAVE_CONSULTADOS, 10)  # revisa si esta el 10
+    print("Números distintos:", distintos)
+    print("¿El 30 fue consultado?:", bool(esta_30))
+    print("¿El 10 fue consultado?:", bool(esta_10))
 
 
 def fib_memo(n):
-    # TODO VILLANEDA: Fibonacci memoizado en Redis guardando cada subresultado
-    #                 en memo:<k>. NO modificar fib().
-    print("pendiente (Villaneda)")
-    return None
+    # caso base
+    if n < 2:
+        return n
+    clave = f"memo:{n}"
+    # revisa si ya esta en redis
+    valor = r.get(clave)
+    if valor is not None:
+        return int(valor)
+    # calcula recursivo y guarda en redis
+    resultado = fib_memo(n - 1) + fib_memo(n - 2)
+    r.set(clave, resultado)
+    return resultado
 
 
 def bonus_memoizacion():
-    # TODO VILLANEDA: medir fib_memo(90) e imprimir resultado y tiempo.
-    print("\n=== Bonus: Memoización (Villaneda) ===")
-    print("pendiente (Villaneda)")
+    print("\n=== Bonus: Memoización (Johan) ===")
+    t0 = time.perf_counter()
+    res = fib_memo(90)  # calcula fib de 90
+    ms = (time.perf_counter() - t0) * 1000
+    print(f"fib_memo(90) = {res}  ->  {ms:.2f} ms")
 
 
 def parte8a_inventario_claves():
-    # TODO VILLANEDA: DBSIZE; contar claves por prefijo (fib:, memo:, stats:, ...)
-    #                 y por tipo (TYPE) recorriendo r.scan_iter(). NUNCA usar KEYS.
-    print("\n=== Parte 8a: Inventario de claves (Villaneda) ===")
-    print("pendiente (Villaneda)")
+    print("\n=== Parte 8a: Inventario de claves (Johan) ===")
+    total = r.dbsize()  # total de claves
+    print("Total de claves (DBSIZE):", total)
+
+    prefijos = {"fib:*": 0, "memo:*": 0, "stats:*": 0, "sin prefijo": 0}
+    tipos = {"string": 0, "list": 0, "set": 0}
+
+    # usa scan_iter para no usar keys
+    for clave in r.scan_iter():
+        # conteo por prefijo
+        if clave.startswith("fib:"):
+            prefijos["fib:*"] += 1
+        elif clave.startswith("memo:"):
+            prefijos["memo:*"] += 1
+        elif clave.startswith("stats:"):
+            prefijos["stats:*"] += 1
+        else:
+            prefijos["sin prefijo"] += 1
+
+        # conteo por tipo
+        tipo = r.type(clave)
+        if tipo in tipos:
+            tipos[tipo] += 1
+        else:
+            tipos[tipo] = 1
+
+    print("\nClaves por prefijo:")
+    for p, cant in prefijos.items():
+        print(f"  {p}: {cant}")
+
+    print("\nClaves por tipo:")
+    for t, cant in tipos.items():
+        print(f"  {t}: {cant}")
 
 
 # ===========================================================================
