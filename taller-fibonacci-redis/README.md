@@ -15,9 +15,9 @@ Taller en grupo: Fibonacci recursivo con caché en Redis (TTL, contadores, lista
 
 | Responsable | Funciones | Estado |
 |-------------|-----------|--------|
-| Arias       | `parte1_conexion`, `fib`, `parte2_sin_cache`, `fib_cache`, `parte3_secuencia` | Implementadas |
-| López       | `contar`, `parte4_contadores`, `registrar_historial`, `parte5_historial`, `parte7_expiracion` | Pendiente (`# TODO LÓPEZ`) |
-| Johan       | `registrar_set`, `parte6_set`, `fib_memo`, `bonus_memoizacion`, `parte8a_inventario_claves` | Pendiente (`# TODO JOHAN`) |
+| Arias       | `parte1_conexion`, `fib`, `parte2_sin_cache`, `fib_cache`, `parte3_secuencia`, `pregunta1_hit_vs_miss` | Implementadas |
+| López       | `contar`, `parte4_contadores`, `registrar_historial`, `parte5_historial`, `parte7_expiracion` | Implementadas |
+| Johan       | `registrar_set`, `parte6_set`, `fib_memo`, `bonus_memoizacion`, `parte8a_inventario_claves` | Implementadas |
 | Daza        | `parte8b_inventario_stats` | Pendiente (`# TODO DAZA`) |
 
 Variables compartidas: `TTL_SEGUNDOS = 30`, `TIEMPOS_MISS` (n → ms del MISS), `LOG_PARTE3` (lista de dicts con n, resultado, estado, ms, ttl) y `SECUENCIA = [30, 30, 25, 30, 25, 32, 32]`.
