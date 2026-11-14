@@ -3,7 +3,7 @@ Taller: Caché de Fibonacci con Redis
 ====================================
 
 Reparto de funciones (cada persona edita SOLO sus funciones):
-- Arias     : parte1_conexion, fib, parte2_sin_cache, fib_cache, parte3_secuencia
+- Arias     : parte1_conexion, fib, parte2_sin_cache, fib_cache, parte3_secuencia, pregunta1_hit_vs_miss
 - López     : contar, parte4_contadores, registrar_historial, parte5_historial, parte7_expiracion
 - Johan     : registrar_set, parte6_set, fib_memo, bonus_memoizacion, parte8a_inventario_claves
 - Daza      : parte8b_inventario_stats
@@ -100,6 +100,37 @@ def parte3_secuencia():
     for n in SECUENCIA:
         resultado, estado, ms, ttl = fib_cache(n)
         print(f"{n:>4} {resultado:>12} {estado:>6} {ms:>10.3f} {ttl:>5}")
+
+
+def pregunta1_hit_vs_miss():
+    """Pregunta 1: cuántas veces más rápido fue un HIT comparado con un MISS."""
+    print("\n=== Pregunta 1: HIT vs MISS (Arias) ===")
+
+    # sumo los tiempos de los HIT y de los MISS de la parte 3
+    suma_hit = 0
+    cantidad_hit = 0
+    suma_miss = 0
+    cantidad_miss = 0
+    for consulta in LOG_PARTE3:
+        if consulta["estado"] == "HIT":
+            suma_hit = suma_hit + consulta["ms"]
+            cantidad_hit = cantidad_hit + 1
+        else:
+            suma_miss = suma_miss + consulta["ms"]
+            cantidad_miss = cantidad_miss + 1
+
+    # si no hubo HIT o MISS no se puede comparar
+    if cantidad_hit == 0 or cantidad_miss == 0:
+        print("No hay HIT y MISS para comparar")
+        return
+
+    promedio_hit = suma_hit / cantidad_hit
+    promedio_miss = suma_miss / cantidad_miss
+    veces = promedio_miss / promedio_hit
+
+    print("Promedio de un MISS:", round(promedio_miss, 3), "ms")
+    print("Promedio de un HIT:", round(promedio_hit, 3), "ms")
+    print("Un HIT fue", round(veces), "veces más rápido que un MISS")
 
 
 # ===========================================================================
@@ -237,6 +268,7 @@ def main():
     parte1_conexion()
     parte2_sin_cache()
     parte3_secuencia()
+    pregunta1_hit_vs_miss()
     parte4_contadores()
     parte5_historial()
     parte6_set()
