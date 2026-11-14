@@ -1,0 +1,64 @@
+
+=== Parte 1: Conexión (Arias) ===
+PING   -> True
+FLUSHDB -> base de datos 1 vaciada
+DBSIZE -> 0
+
+=== Parte 2: Fibonacci sin caché (Arias) ===
+fib(30) = 832040  ->  44.12 ms
+fib(32) = 2178309  ->  114.46 ms
+fib(35) = 9227465  ->  486.76 ms
+
+=== Parte 3: Fibonacci con caché y TTL (Arias) ===
+   n    resultado estado         ms   ttl
+  30       832040   MISS     45.561    30
+  30       832040    HIT      0.311    30
+  25        75025   MISS      4.591    30
+  30       832040    HIT      0.340    30
+  25        75025    HIT      0.276    30
+  32      2178309   MISS    116.335    30
+  32      2178309    HIT      0.185    30
+
+=== Pregunta 1: HIT vs MISS (Arias) ===
+Promedio de un MISS: 55.496 ms
+Promedio de un HIT: 0.278 ms
+Un HIT fue 200 veces más rápido que un MISS
+
+=== Parte 4 lop ===
+Hits: 4
+Misses: 3
+Tasa de aciertos: 57.14%
+
+=== Parte 5 lop ===
+Últimas 5 consultas: ['32', '32', '25', '30', '25']
+Total de consultas: 7
+
+=== Parte 6: Set de consultados (Johan) ===
+Números distintos: 3
+¿El 30 fue consultado?: True
+¿El 10 fue consultado?: False
+
+=== Parte 7 lop ===
+EXPIRE fib:30 a 1 segundo
+EXISTS fib:30 -> 0
+fib_cache(30) -> 832040 MISS 45.286 ms
+
+=== Bonus: Memoización (Johan) ===
+fib_memo(90) = 2880067194370816120  ->  39.60 ms
+
+=== Parte 8a: Inventario de claves (Johan) ===
+Total de claves (DBSIZE): 96
+
+Claves por prefijo:
+  fib:*: 3
+  memo:*: 89
+  stats:*: 2
+  sin prefijo: 2
+
+Claves por tipo:
+  string: 94
+  list: 1
+  set: 1
+
+=== Parte 8b: Inventario de estadísticas (Daza) ===
+pendiente (Daza)
