@@ -106,33 +106,39 @@ def parte3_secuencia():
 # LÓPEZ — Partes 4, 5 y 7 (pendientes)
 # ===========================================================================
 def contar(estado):
-    # TODO LÓPEZ: INCR stats:hits si estado == "HIT", INCR stats:misses si estado == "MISS".
-    print("pendiente (López)")
-
+    if estado == "HIT":#esta bien la consulta
+        r.incr(CLAVE_HITS)
+    elif estado == "MISS":#esta mal la consulta
+        r.incr(CLAVE_MISSES)
 
 def parte4_contadores():
-    # TODO LÓPEZ: GET stats:hits y stats:misses, imprimirlos y calcular
-    #             tasa de aciertos = hits / (hits + misses) * 100.
-    print("\n=== Parte 4: Contadores (López) ===")
-    print("pendiente (López)")
-
+    print("\n=== Parte 4 lop ===")
+    hits = int(r.get(CLAVE_HITS))
+    misses = int(r.get(CLAVE_MISSES))
+    tasa = hits / (hits + misses) * 100 #aciertos entre el total de consultas en porcentaje
+    print("Hits:", hits)
+    print("Misses:", misses)
+    print(f"Tasa de aciertos: {tasa:.2f}%")
 
 def registrar_historial(n):
-    # TODO LÓPEZ: LPUSH historial n (guardar cada consulta en la lista).
-    print("pendiente (López)")
-
+    r.lpush(CLAVE_HISTORIAL, n)#se mete n al inicio de la lista historial (la más reciente primero)
 
 def parte5_historial():
-    # TODO LÓPEZ: LRANGE historial 0 -1 para mostrar el historial y LLEN historial para su tamaño.
-    print("\n=== Parte 5: Historial en lista (López) ===")
-    print("pendiente (López)")
+    print("\n=== Parte 5 lop ===")
+    ultimas = r.lrange(CLAVE_HISTORIAL, 0, 4) #el taller dice que devuelve las 5 consultas mas recientes
+    total = r.llen(CLAVE_HISTORIAL) #el total de consultas realizadas
+    print("Últimas 5 consultas:", ultimas)
+    print("Total de consultas:", total)
 
 
 def parte7_expiracion():
-    # TODO LÓPEZ: EXPIRE sobre una clave fib:<n> con un TTL corto, esperar,
-    #             y comprobar con EXISTS que la clave ya expiró.
-    print("\n=== Parte 7: Expiración (López) ===")
-    print("pendiente (López)")
+    print("\n=== Parte 7 lop ===")
+    r.expire("fib:30", 1) #cambiamos el TTL de fib:30 a 1 segundo
+    print("EXPIRE fib:30 a 1 segundo")
+    time.sleep(2)
+    print("EXISTS fib:30 ->", r.exists("fib:30"))# devuelve 1 si existe y 0 si no.
+    resultado, estado, ms, ttl = fib_cache(30) 
+    print(f"fib_cache(30) -> {resultado} {estado} {ms:.3f} ms")#muestra si fue hit o miss junto al tiempo
 
 
 # ===========================================================================
