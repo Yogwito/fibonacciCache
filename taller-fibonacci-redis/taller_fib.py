@@ -253,12 +253,60 @@ def parte8a_inventario_claves():
 # DAZA — Parte 8b (pendiente)
 # ===========================================================================
 def parte8b_inventario_stats():
-    # TODO DAZA: con TTL separar claves con expiración y claves permanentes (TTL = -1);
-    #            mostrar valores finales de stats:hits y stats:misses con la tasa de aciertos;
-    #            calcular el tiempo ahorrado por el caché usando TIEMPOS_MISS y LOG_PARTE3
-    #            (cada HIT de n ahorra aprox. TIEMPOS_MISS[n] - ms del HIT).
     print("\n=== Parte 8b: Inventario de estadísticas (Daza) ===")
-    print("pendiente (Daza)")
+    print()
+
+    total_permanentes = 0
+
+    for clave in r.scan_iter():
+
+        tiempo = r.ttl(clave)
+
+        if tiempo == -1:
+            total_permanentes += 1
+
+        elif tiempo >= 0:
+            print(f"{clave} tiene expiracion y le quedan {tiempo}s")
+
+    print()
+    print(f"Total de claves permanentes: {total_permanentes}")
+
+    hits = int(r.get("stats:hits"))
+    misses = int(r.get("stats:misses"))
+
+    porcentaje = hits/(hits+misses) * 100
+    print()
+    print(f"Hits: {r.get("stats:hits")}")
+    print(f"Misses: {r.get("stats:misses")}")
+    print(f"Tasa de aciertos: {porcentaje}%")
+    print()
+
+    print("Tiempo ahorrado")
+
+    tiempo_ahorrado = 0
+
+    for i in range(len(LOG_PARTE3)):
+        if LOG_PARTE3[i]["estado"]=="HIT":
+            n = LOG_PARTE3[i]["n"]
+            inicio=time.perf_counter()
+            fib(n)
+            tiempo_calculo =(time.perf_counter()-inicio) * 1000
+
+            tiempo_hit=LOG_PARTE3[i]["ms"]
+
+            ahorro =tiempo_calculo-tiempo_hit
+            tiempo_ahorrado += ahorro
+
+            print(f"N: {n}")
+            print(f"tiempo normal: {tiempo_calculo}ms")
+            print(f"tiempo del hit: {tiempo_hit}ms")
+            print(f"tiempo ahorrado: {ahorro}ms")
+
+    print(f"tiempo ahorrado en total: {tiempo_ahorrado}ms")
+  
+
+
+    
 
 
 # ===========================================================================
