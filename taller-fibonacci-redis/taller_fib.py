@@ -33,73 +33,65 @@ CLAVE_HISTORIAL = "historial"          # lista (López)
 CLAVE_CONSULTADOS = "consultados"      # set (Johan)
 
 
-# ===========================================================================
-# ARIAS — Partes 1, 2 y 3 (implementadas)
-# ===========================================================================
+# ---------------- ARIAS: partes 1, 2 y 3 ----------------
+
 def parte1_conexion():
-    """Parte 1: PING, FLUSHDB y DBSIZE sobre la base de datos 1."""
     print("\n=== Parte 1: Conexión (Arias) ===")
-    print("PING   ->", r.ping())
-    r.flushdb()
-    print("FLUSHDB -> base de datos 1 vaciada")
-    print("DBSIZE ->", r.dbsize())
+    print("PING:", r.ping())
+    r.flushdb()  # limpia la base 1 antes de empezar
+    print("FLUSHDB: base de datos 1 vaciada")
+    print("DBSIZE:", r.dbsize())
 
 
+# fibonacci normal, sin nada de cache (por eso es lento)
 def fib(n):
-    """Fibonacci recursivo puro, sin caché (a propósito lento)."""
     if n < 2:
         return n
     return fib(n - 1) + fib(n - 2)
 
 
 def parte2_sin_cache():
-    """Parte 2: mide el tiempo de fib(30), fib(32) y fib(35) sin caché."""
     print("\n=== Parte 2: Fibonacci sin caché (Arias) ===")
-    for n in (30, 32, 35):
-        t0 = time.perf_counter()
+    for n in [30, 32, 35]:
+        inicio = time.perf_counter()
         resultado = fib(n)
-        ms = (time.perf_counter() - t0) * 1000
-        print(f"fib({n}) = {resultado}  ->  {ms:.2f} ms")
+        ms = (time.perf_counter() - inicio) * 1000
+        print("fib(" + str(n) + ") =", resultado, "->", round(ms, 2), "ms")
 
 
+# busca fib:n en redis, si esta es HIT y si no lo calcula y lo guarda 30 seg (MISS)
 def fib_cache(n):
-    """
-    Busca fib:<n> en Redis.
-    - Si existe: HIT.
-    - Si no: calcula con fib(n), guarda con TTL_SEGUNDOS y es MISS.
-    Los contadores los incrementa contar() (López), NO esta función.
-    Devuelve (resultado, estado, ms, ttl).
-    """
-    clave = f"fib:{n}"
-    t0 = time.perf_counter()
+    clave = "fib:" + str(n)
+    inicio = time.perf_counter()
     valor = r.get(clave)
-    if valor is not None:
+    if valor != None:
         resultado = int(valor)
         estado = "HIT"
     else:
         resultado = fib(n)
         r.set(clave, resultado, ex=TTL_SEGUNDOS)
         estado = "MISS"
-    ms = (time.perf_counter() - t0) * 1000
+    ms = (time.perf_counter() - inicio) * 1000
     ttl = r.ttl(clave)
 
+    # esto lo hacen las funciones de los compañeros
     contar(estado)            # López
     registrar_historial(n)    # López
     registrar_set(n)          # Johan
 
+    # guardo los tiempos para usarlos despues
     if estado == "MISS":
         TIEMPOS_MISS[n] = ms
-    LOG_PARTE3.append({"n": n, "resultado": resultado, "estado": estado, "ms": ms, "ttl": ttl})
+    consulta = {"n": n, "resultado": resultado, "estado": estado, "ms": ms, "ttl": ttl}
+    LOG_PARTE3.append(consulta)
     return resultado, estado, ms, ttl
 
 
 def parte3_secuencia():
-    """Parte 3: ejecuta fib_cache sobre SECUENCIA y muestra HIT/MISS, tiempo y TTL."""
     print("\n=== Parte 3: Fibonacci con caché y TTL (Arias) ===")
-    print(f"{'n':>4} {'resultado':>12} {'estado':>6} {'ms':>10} {'ttl':>5}")
     for n in SECUENCIA:
         resultado, estado, ms, ttl = fib_cache(n)
-        print(f"{n:>4} {resultado:>12} {estado:>6} {ms:>10.3f} {ttl:>5}")
+        print("n:", n, "| resultado:", resultado, "|", estado, "|", round(ms, 3), "ms | ttl:", ttl)
 
 
 def pregunta1_hit_vs_miss():
