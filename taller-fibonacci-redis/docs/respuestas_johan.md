@@ -47,4 +47,4 @@ Datos tomados de la ejecución oficial registrada en `salida_programa.txt` (y ve
 | `stats:hits`              | **4**         | 4 HITs en la Parte 3 (`30`, `30`, `25`, `32`)                                                                                  |
 | `stats:misses`            | **4**         | 3 MISSes en la Parte 3 (`30`, `25`, `32`) + 1 MISS en la Parte 7 (`30`)                                                        |
 | Tasa de aciertos final    | **50.0%**     | `4 / (4 + 4) * 100`                                                                                                            |
-| Tiempo ahorrado (Parte 3) | **210.94 ms** | Calculado sobre `salida_programa.txt` (`45.25 + 45.22 + 4.32 + 116.15 ms`); en la prueba de Daza en el notebook fue 1563.12 ms |
+| Tiempo ahorrado (Parte 3) | **205 ms**    | Calculado en la ejecución de la Parte 8b (~205 ms; 210.94 ms usando los MISS de `salida_programa.txt`)                       |
