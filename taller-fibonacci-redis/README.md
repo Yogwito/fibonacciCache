@@ -18,7 +18,7 @@ Taller en grupo: Fibonacci recursivo con caché en Redis (TTL, contadores, lista
 | Arias       | `parte1_conexion`, `fib`, `parte2_sin_cache`, `fib_cache`, `parte3_secuencia`, `pregunta1_hit_vs_miss` | Implementadas |
 | López       | `contar`, `parte4_contadores`, `registrar_historial`, `parte5_historial`, `parte7_expiracion` | Implementadas |
 | Johan       | `registrar_set`, `parte6_set`, `fib_memo`, `bonus_memoizacion`, `parte8a_inventario_claves` | Implementadas |
-| Daza        | `parte8b_inventario_stats` | Pendiente (`# TODO DAZA`) |
+| Daza        | `parte8b_inventario_stats` | Implementada |
 
 Variables compartidas: `TTL_SEGUNDOS = 30`, `TIEMPOS_MISS` (n → ms del MISS), `LOG_PARTE3` (lista de dicts con n, resultado, estado, ms, ttl) y `SECUENCIA = [30, 30, 25, 30, 25, 32, 32]`.
 
@@ -45,5 +45,4 @@ El notebook `taller_fib.ipynb` importa las funciones de `taller_fib.py`.
 - Una rama por persona: `arias/...`, `lopez/...`, `johan/...`, `daza/...` (por ejemplo `lopez/contadores`).
 - Cada uno edita **solo sus funciones** en `taller_fib.py` y sus celdas del notebook.
 - No cambiar nombres de funciones ni variables compartidas sin avisar al grupo.
-- Los stubs imprimen `pendiente (<nombre>)` para que el programa corra completo aunque falten partes.
 - Diagramas e informe final van en `docs/` (ver `docs/README.md`).

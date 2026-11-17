@@ -126,7 +126,7 @@ def pregunta1_hit_vs_miss():
 
 
 # ===========================================================================
-# LÓPEZ — Partes 4, 5 y 7 (pendientes)
+# LÓPEZ — Partes 4, 5 y 7
 # ===========================================================================
 def contar(estado):
     if estado == "HIT":#esta bien la consulta
@@ -242,7 +242,7 @@ def parte8a_inventario_claves():
 
 
 # ===========================================================================
-# DAZA — Parte 8b (pendiente)
+# DAZA — Parte 8b
 # ===========================================================================
 def parte8b_inventario_stats():
     print("\n=== Parte 8b: Inventario de estadísticas (Daza) ===")

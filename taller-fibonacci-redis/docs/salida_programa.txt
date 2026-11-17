@@ -1,28 +1,27 @@
 
 === Parte 1: Conexión (Arias) ===
-PING   -> True
-FLUSHDB -> base de datos 1 vaciada
-DBSIZE -> 0
+PING: True
+FLUSHDB: base de datos 1 vaciada
+DBSIZE: 0
 
 === Parte 2: Fibonacci sin caché (Arias) ===
-fib(30) = 832040  ->  44.12 ms
-fib(32) = 2178309  ->  114.46 ms
-fib(35) = 9227465  ->  486.76 ms
+fib(30) = 832040 -> 42.59 ms
+fib(32) = 2178309 -> 112.42 ms
+fib(35) = 9227465 -> 478.41 ms
 
 === Parte 3: Fibonacci con caché y TTL (Arias) ===
-   n    resultado estado         ms   ttl
-  30       832040   MISS     45.561    30
-  30       832040    HIT      0.311    30
-  25        75025   MISS      4.591    30
-  30       832040    HIT      0.340    30
-  25        75025    HIT      0.276    30
-  32      2178309   MISS    116.335    30
-  32      2178309    HIT      0.185    30
+n: 30 | resultado: 832040 | MISS | 45.682 ms | ttl: 30
+n: 30 | resultado: 832040 | HIT | 0.283 ms | ttl: 30
+n: 25 | resultado: 75025 | MISS | 4.655 ms | ttl: 30
+n: 30 | resultado: 832040 | HIT | 0.288 ms | ttl: 30
+n: 25 | resultado: 75025 | HIT | 0.289 ms | ttl: 30
+n: 32 | resultado: 2178309 | MISS | 114.214 ms | ttl: 30
+n: 32 | resultado: 2178309 | HIT | 0.202 ms | ttl: 30
 
 === Pregunta 1: HIT vs MISS (Arias) ===
-Promedio de un MISS: 55.496 ms
-Promedio de un HIT: 0.278 ms
-Un HIT fue 200 veces más rápido que un MISS
+Promedio de un MISS: 54.85 ms
+Promedio de un HIT: 0.265 ms
+Un HIT fue 207 veces más rápido que un MISS
 
 === Parte 4 lop ===
 Hits: 4
@@ -41,10 +40,10 @@ Números distintos: 3
 === Parte 7 lop ===
 EXPIRE fib:30 a 1 segundo
 EXISTS fib:30 -> 0
-fib_cache(30) -> 832040 MISS 45.286 ms
+fib_cache(30) -> 832040 MISS 57.826 ms
 
 === Bonus: Memoización (Johan) ===
-fib_memo(90) = 2880067194370816120  ->  39.60 ms
+fib_memo(90) = 2880067194370816120  ->  39.26 ms
 
 === Parte 8a: Inventario de claves (Johan) ===
 Total de claves (DBSIZE): 96
@@ -61,4 +60,32 @@ Claves por tipo:
   set: 1
 
 === Parte 8b: Inventario de estadísticas (Daza) ===
-pendiente (Daza)
+
+fib:30 tiene expiracion y le quedan 30s
+fib:25 tiene expiracion y le quedan 28s
+fib:32 tiene expiracion y le quedan 28s
+
+Total de claves permanentes: 93
+
+Hits: 4
+Misses: 4
+Tasa de aciertos: 50.0%
+
+Tiempo ahorrado
+N: 30
+tiempo normal: 44.87849999713944ms
+tiempo del hit: 0.2826670024660416ms
+tiempo ahorrado: 44.5958329946734ms
+N: 30
+tiempo normal: 43.40604199387599ms
+tiempo del hit: 0.2876670041587204ms
+tiempo ahorrado: 43.11837498971727ms
+N: 25
+tiempo normal: 3.9266250023501925ms
+tiempo del hit: 0.2888329981942661ms
+tiempo ahorrado: 3.6377920041559264ms
+N: 32
+tiempo normal: 113.78354099724675ms
+tiempo del hit: 0.2015409991145134ms
+tiempo ahorrado: 113.58199999813223ms
+tiempo ahorrado en total: 204.93399998667883ms

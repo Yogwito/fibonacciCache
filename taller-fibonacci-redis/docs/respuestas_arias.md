@@ -28,8 +28,8 @@ La función `pregunta1_hit_vs_miss()` de `taller_fib.py` lo calcula con los dato
 2. Saca el promedio de tiempo de los HIT.
 3. Divide: `veces = promedio_miss / promedio_hit`.
 
-**Resultado medido:** un HIT fue **200 veces** más rápido que un MISS
-(promedio MISS: 55.496 ms, promedio HIT: 0.278 ms). Los números cambian un poco en cada ejecución, pero la diferencia siempre es de cientos de veces.
+**Resultado medido:** un HIT fue **207 veces** más rápido que un MISS
+(promedio MISS: 54.85 ms, promedio HIT: 0.265 ms). Los números cambian un poco en cada ejecución, pero la diferencia siempre es de cientos de veces.
 
 **Por qué la diferencia es tan grande:** en un MISS el programa hace todo el cálculo recursivo, que repite los mismos subproblemas miles de veces (por ejemplo, `fib(30)` hace más de un millón de llamadas). En un HIT no se calcula nada: solo se le pide a Redis el valor que ya estaba guardado en memoria. Por eso un HIT es cientos o miles de veces más rápido, y la diferencia crece mientras más grande sea `n`.
 
@@ -37,12 +37,12 @@ La función `pregunta1_hit_vs_miss()` de `taller_fib.py` lo calcula con los dato
 
 | n  | resultado | estado | ms      | ttl |
 |----|-----------|--------|---------|-----|
-| 30 | 832040    | MISS   | 45.561  | 30  |
-| 30 | 832040    | HIT    | 0.311   | 30  |
-| 25 | 75025     | MISS   | 4.591   | 30  |
-| 30 | 832040    | HIT    | 0.340   | 30  |
-| 25 | 75025     | HIT    | 0.276   | 30  |
-| 32 | 2178309   | MISS   | 116.335 | 30  |
-| 32 | 2178309   | HIT    | 0.185   | 30  |
+| 30 | 832040    | MISS   | 45.682  | 30  |
+| 30 | 832040    | HIT    | 0.283   | 30  |
+| 25 | 75025     | MISS   | 4.655   | 30  |
+| 30 | 832040    | HIT    | 0.288   | 30  |
+| 25 | 75025     | HIT    | 0.289   | 30  |
+| 32 | 2178309   | MISS   | 114.214 | 30  |
+| 32 | 2178309   | HIT    | 0.202   | 30  |
 
 La salida completa del programa está en `salida_programa.txt`.
