@@ -1,51 +1,51 @@
 
-=== Parte 1: Conexión (Arias) ===
+=== Parte 1: Conexión ===
 PING: True
 FLUSHDB: base de datos 1 vaciada
 DBSIZE: 0
 
-=== Parte 2: Fibonacci sin caché (Arias) ===
-fib(30) = 832040 -> 42.59 ms
-fib(32) = 2178309 -> 112.42 ms
-fib(35) = 9227465 -> 478.41 ms
+=== Parte 2: Fibonacci sin caché ===
+fib(30) = 832040 -> 43.4 ms
+fib(32) = 2178309 -> 115.23 ms
+fib(35) = 9227465 -> 479.83 ms
 
-=== Parte 3: Fibonacci con caché y TTL (Arias) ===
-n: 30 | resultado: 832040 | MISS | 45.682 ms | ttl: 30
-n: 30 | resultado: 832040 | HIT | 0.283 ms | ttl: 30
-n: 25 | resultado: 75025 | MISS | 4.655 ms | ttl: 30
-n: 30 | resultado: 832040 | HIT | 0.288 ms | ttl: 30
-n: 25 | resultado: 75025 | HIT | 0.289 ms | ttl: 30
+=== Parte 3: Fibonacci con caché y TTL ===
+n: 30 | resultado: 832040 | MISS | 45.121 ms | ttl: 30
+n: 30 | resultado: 832040 | HIT | 0.211 ms | ttl: 30
+n: 25 | resultado: 75025 | MISS | 4.875 ms | ttl: 30
+n: 30 | resultado: 832040 | HIT | 0.167 ms | ttl: 30
+n: 25 | resultado: 75025 | HIT | 0.276 ms | ttl: 30
 n: 32 | resultado: 2178309 | MISS | 114.214 ms | ttl: 30
-n: 32 | resultado: 2178309 | HIT | 0.202 ms | ttl: 30
+n: 32 | resultado: 2178309 | HIT | 0.321 ms | ttl: 30
 
-=== Pregunta 1: HIT vs MISS (Arias) ===
-Promedio de un MISS: 54.85 ms
-Promedio de un HIT: 0.265 ms
-Un HIT fue 207 veces más rápido que un MISS
+=== Pregunta 1: HIT vs MISS ===
+Promedio de un MISS: 54.737 ms
+Promedio de un HIT: 0.244 ms
+Un HIT fue 225 veces más rápido que un MISS
 
-=== Parte 4 lop ===
+=== Parte 4: Contadores ===
 Hits: 4
 Misses: 3
 Tasa de aciertos: 57.14%
 
-=== Parte 5 lop ===
+=== Parte 5: Historial ===
 Últimas 5 consultas: ['32', '32', '25', '30', '25']
 Total de consultas: 7
 
-=== Parte 6: Set de consultados (Johan) ===
+=== Parte 6: Set de consultados ===
 Números distintos: 3
 ¿El 30 fue consultado?: True
 ¿El 10 fue consultado?: False
 
-=== Parte 7 lop ===
+=== Parte 7: Expiración ===
 EXPIRE fib:30 a 1 segundo
 EXISTS fib:30 -> 0
-fib_cache(30) -> 832040 MISS 57.826 ms
+fib_cache(30) -> 832040 MISS 77.107 ms
 
-=== Bonus: Memoización (Johan) ===
-fib_memo(90) = 2880067194370816120  ->  39.26 ms
+=== Bonus: Memoización ===
+fib_memo(90) = 2880067194370816120  ->  38.20 ms
 
-=== Parte 8a: Inventario de claves (Johan) ===
+=== Parte 8a: Inventario de claves ===
 Total de claves (DBSIZE): 96
 
 Claves por prefijo:
@@ -59,11 +59,11 @@ Claves por tipo:
   list: 1
   set: 1
 
-=== Parte 8b: Inventario de estadísticas (Daza) ===
+=== Parte 8b: Inventario de estadísticas ===
 
-fib:30 tiene expiracion y le quedan 30s
 fib:25 tiene expiracion y le quedan 28s
 fib:32 tiene expiracion y le quedan 28s
+fib:30 tiene expiracion y le quedan 30s
 
 Total de claves permanentes: 93
 
@@ -73,19 +73,19 @@ Tasa de aciertos: 50.0%
 
 Tiempo ahorrado
 N: 30
-tiempo normal: 44.87849999713944ms
-tiempo del hit: 0.2826670024660416ms
-tiempo ahorrado: 44.5958329946734ms
+tiempo normal: 43.032125000536325ms
+tiempo del hit: 0.21091700000397395ms
+tiempo ahorrado: 42.82120800053235ms
 N: 30
-tiempo normal: 43.40604199387599ms
-tiempo del hit: 0.2876670041587204ms
-tiempo ahorrado: 43.11837498971727ms
+tiempo normal: 43.171083998458926ms
+tiempo del hit: 0.16691700147930533ms
+tiempo ahorrado: 43.00416699697962ms
 N: 25
-tiempo normal: 3.9266250023501925ms
-tiempo del hit: 0.2888329981942661ms
-tiempo ahorrado: 3.6377920041559264ms
+tiempo normal: 3.83154100018146ms
+tiempo del hit: 0.27637499988486525ms
+tiempo ahorrado: 3.5551660002965946ms
 N: 32
-tiempo normal: 113.78354099724675ms
-tiempo del hit: 0.2015409991145134ms
-tiempo ahorrado: 113.58199999813223ms
-tiempo ahorrado en total: 204.93399998667883ms
+tiempo normal: 114.1742499985412ms
+tiempo del hit: 0.3208329999324633ms
+tiempo ahorrado: 113.85341699860874ms
+tiempo ahorrado en total: 203.2339579964173ms

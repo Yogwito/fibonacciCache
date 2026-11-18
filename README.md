@@ -2,23 +2,18 @@
 
 Taller en grupo: Fibonacci recursivo con caché en Redis (TTL, contadores, listas, sets, memoización e inventario de claves).
 
-## Reparto
+## Integrantes
 
-| Persona   | Código | Informe |
-|-----------|--------|---------|
-| Arias     | Partes 1-3: conexión, `fib` sin caché, `fib_cache` con TTL. Integra y corre todo, captura la salida. | Arma el PDF final. Preguntas: parte 3 y pregunta 1. |
-| López     | Partes 4, 5 y 7: contadores `stats:hits` / `stats:misses` con tasa de aciertos, historial en lista, expiración. | Pregunta 6 y lista vs set. |
-| Johan     | Parte 6, bonus y parte 8a: set `consultados`, `fib_memo(90)`, inventario de claves (`DBSIZE`, conteo por prefijo y por tipo con `scan_iter`, nunca `KEYS`). | Bonus, pregunta 5 y la tabla del inventario. |
-| Daza      | Parte 8b: claves con TTL y permanentes, valores finales de hits y misses con tasa de aciertos, tiempo ahorrado por el caché. | Los 3 diagramas con su comparación y preguntas 2, 3 y 4. |
+Arias, López, Johan y Daza.
 
-## Funciones por responsable (`taller_fib.py`)
+## Contenido (`taller_fib.py`)
 
-| Responsable | Funciones | Estado |
-|-------------|-----------|--------|
-| Arias       | `parte1_conexion`, `fib`, `parte2_sin_cache`, `fib_cache`, `parte3_secuencia`, `pregunta1_hit_vs_miss` | Implementadas |
-| López       | `contar`, `parte4_contadores`, `registrar_historial`, `parte5_historial`, `parte7_expiracion` | Implementadas |
-| Johan       | `registrar_set`, `parte6_set`, `fib_memo`, `bonus_memoizacion`, `parte8a_inventario_claves` | Implementadas |
-| Daza        | `parte8b_inventario_stats` | Implementada |
+| Parte | Qué hace | Funciones |
+|-------|----------|-----------|
+| 1-3 | Conexión, `fib` sin caché y `fib_cache` con TTL | `parte1_conexion`, `fib`, `parte2_sin_cache`, `fib_cache`, `parte3_secuencia`, `pregunta1_hit_vs_miss` |
+| 4, 5 y 7 | Contadores de hits y misses, historial en lista, expiración | `contar`, `parte4_contadores`, `registrar_historial`, `parte5_historial`, `parte7_expiracion` |
+| 6, bonus y 8a | Set de consultados, `fib_memo(90)`, inventario de claves con `scan_iter` | `registrar_set`, `parte6_set`, `fib_memo`, `bonus_memoizacion`, `parte8a_inventario_claves` |
+| 8b | Claves con TTL y permanentes, tasa de aciertos, tiempo ahorrado | `parte8b_inventario_stats` |
 
 Variables compartidas: `TTL_SEGUNDOS = 30`, `TIEMPOS_MISS` (n → ms del MISS), `LOG_PARTE3` (lista de dicts con n, resultado, estado, ms, ttl) y `SECUENCIA = [30, 30, 25, 30, 25, 32, 32]`.
 
@@ -42,7 +37,6 @@ El notebook `taller_fib.ipynb` importa las funciones de `taller_fib.py`.
 
 ## Flujo de trabajo
 
-- Una rama por persona: `arias/...`, `lopez/...`, `johan/...`, `daza/...` (por ejemplo `lopez/contadores`).
-- Cada uno edita **solo sus funciones** en `taller_fib.py` y sus celdas del notebook.
+- Trabajar en ramas aparte y luego integrar en `main`.
 - No cambiar nombres de funciones ni variables compartidas sin avisar al grupo.
 - Diagramas e informe final van en `docs/` (ver `docs/README.md`).
